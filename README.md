@@ -13,3 +13,7 @@ pip install -r requirements.txt
 ```  
 pip freeze > requirements.txt
 ```
+### Um in die virtuelle Maschine zu wechseln 
+````
+./venv/Scripts/activate
+````
