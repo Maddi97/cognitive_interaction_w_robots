@@ -9,6 +9,7 @@ from tracking.tracking_algorithms.handTracker import HandTracker
 
 path.append('tracking/tracking_algorithms')  # for module import
 
+import helpers
 
 class Environment:
 
@@ -18,10 +19,11 @@ class Environment:
         self.emDetection = emotion_detection.EmotionDetection()
 
         self.scan_interval = scan_interval
-        self.actions = ['slow', 'fast', 'loud', 'trash']
 
+    # returns current state averaged over the soze of the scan intervall
     def get_current_state(self):
         cap = cv2.VideoCapture(0)
+        states = []
         for i in range(self.scan_interval):
             success, img = cap.read()
             emotion, em_pred = self.emDetection.predict_emotion(img)
@@ -37,18 +39,26 @@ class Environment:
             cv2.imshow("Image", img)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
-        return state
+            states.append(state)
 
-    def act(self):
+        return helpers.mean_array(states)
+
+    def step(self):
         return np.random.choice(self.actions)
 
-    def observing_negative(self):
-        while (True):
+    # scan until negative reaction of user
+    # actual only reacts to thumbs down
+    def play_and_observe_negative(self, stopping_crit=5):
+        count = 0
+        while True:
             cap = cv2.VideoCapture(0)
             success, img = cap.read()
-            emotion, em_pred = self.emDetection.predict_emotion(img)
+            # emotion, em_pred = self.emDetection.predict_emotion(img)
             img = self.handTracker.track_hand(img)
             gesture, gesture_pred = self.handTracker.predict_gesture(img)
 
-            state = np.concatenate((em_pred.squeeze(), gesture_pred.squeeze()))
-            print(state)
+            if gesture == 'thumbs down':
+                count += 1
+
+            if count == stopping_crit:
+                return -10

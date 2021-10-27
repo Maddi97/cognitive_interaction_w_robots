@@ -5,6 +5,7 @@ from ..CONSTANTS import HAND_LANDMARKS
 from tensorflow.keras.models import load_model
 from pathlib import Path
 
+
 class HandTracker():
     def __init__(self, mode=False, max_hands=2, detection_conf=0.5, track_conf=0.5):
         self.mode = mode
@@ -16,10 +17,10 @@ class HandTracker():
         self.mpDraw = mp.solutions.drawing_utils
 
         # Load the gesture recognizer model
-        self.model = load_model( str(Path(__file__).parent.parent) +  '/tracking_algorithms/model/mp_hand_gesture')
+        self.model = load_model(str(Path(__file__).parent.parent) + '/tracking_algorithms/model/mp_hand_gesture')
 
         # Load class names
-        f = open( str(Path(__file__).parent.parent) +'/tracking_algorithms/gesture.names', 'r')
+        f = open(str(Path(__file__).parent.parent) + '/tracking_algorithms/gesture.names', 'r')
         self.classNames = f.read().split('\n')
         f.close()
 
@@ -51,14 +52,14 @@ class HandTracker():
 
     def predict_gesture(self, img, handNo=0):
         landmarks = []
-        prediction = np.zeros((1,10))
+        prediction = np.zeros((1, 10))
         if self.results.multi_hand_landmarks:
             hand = self.results.multi_hand_landmarks[handNo]
             for id, lm in enumerate(hand.landmark):
                 # print(id, lm)
                 h, w, c = img.shape
                 cx, cy = int(lm.x * w), int(lm.y * h)
-                landmarks.append([cx,cy])
+                landmarks.append([cx, cy])
                 # print(landmark_obj)
 
                 # Predict gesture in Hand Gesture Recognition project
@@ -71,4 +72,3 @@ class HandTracker():
 
         else:
             return 'Nothing', prediction
-
