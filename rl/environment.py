@@ -9,7 +9,8 @@ from tracking.tracking_algorithms.handTracker import HandTracker
 
 path.append('tracking/tracking_algorithms')  # for module import
 
-import helpers
+from control_unit import helpers
+
 
 class Environment:
 

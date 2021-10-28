@@ -1,5 +1,7 @@
 import unittest
-import helpers
+from control_unit import helpers
+
+
 class TestFunction(unittest.TestCase):
     def test_mean_array(self):
         arr = [[10, 1], [30, 2]]
