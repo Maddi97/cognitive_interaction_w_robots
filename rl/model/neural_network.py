@@ -13,7 +13,7 @@ class Network:
         print(state_shape)
         self.model = Sequential()
 
-        self.model.add(Dense(1, input_dim=17, activation='relu'))
+        self.model.add(Dense(16, input_dim=17, activation='relu'))
         self.model.add(Activation('relu'))
         self.model.add(Dense(32))
         self.model.add(Dense(action_shape, activation='softmax'))
