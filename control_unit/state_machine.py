@@ -10,7 +10,7 @@ from tracking.tracking_algorithms.bodyTracker import BodyTracker
 from tracking.tracking_algorithms.handTracker import HandTracker
 
 from rl.agent import Agent
-
+import numpy as np
 import time
 
 handTracker = HandTracker(mode=True)
@@ -20,25 +20,18 @@ emDetection = emotion_detection.EmotionDetection()
 agent = Agent()
 
 init_state = InitState()
-query_state = QueryState(scan_interval=10, handTracker=handTracker, emDetection=emDetection)
-play_song_state = PlaySongState(handTracker=handTracker)
-questioning_state = QuestioningState(handTracker=handTracker)
+query_state = QueryState(scan_interval=5, handTracker=handTracker, emDetection=emDetection)
+play_song_state = PlaySongState(handTracker=handTracker, stopping_crit=1)
+questioning_state = QuestioningState(handTracker=handTracker, stopping_crit=2)
 select_song_state = SongSelectionState(agent)
-training_state = TrainingState(agent=Agent)
-
-
+training_state = TrainingState(agent=agent)
 
 init_state.find_human()
 
 while 1:
     state = query_state.scan_human()
-    time.sleep(2)
     song = select_song_state.select_song(state)
-    time.sleep(2)
     reward = play_song_state.play_song(song)
-    time.sleep(2)
     training_state.train(state, reward)
-    time.sleep(2)
     questioning_state.decideForState()
-    time.sleep(2)
 

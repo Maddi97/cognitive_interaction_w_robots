@@ -24,7 +24,7 @@ class QueryState(object):
             self.__visualize_prediction__(img, gesture, emotion)
             states.append(state)
 
-        return helpers.mean_array(states)
+        return np.reshape(helpers.mean_array(states), (1 ,17))
 
     def __get_current_state__(self, img):
         emotion, em_pred = self.emDetection.predict_emotion(img)

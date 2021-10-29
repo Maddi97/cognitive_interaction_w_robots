@@ -8,12 +8,12 @@ from rl. CONSTANTS import *
 
 class Agent:
     def __init__(self):
-
-        self.dqn = Network(len(ACTIONS), 17)
+        self.dqn = Network(len(ACTIONS), (17,))
 
     # TODO
     def predict_song(self, state):
-        # song = np.argmax(self.dqn.predict(state))
+        bla = self.dqn.predict(state)
+        song = np.argmax(self.dqn.predict(state))
 
         return ACTIONS.index(np.random.choice(ACTIONS))
 
