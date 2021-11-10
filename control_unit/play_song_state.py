@@ -28,7 +28,7 @@ class PlaySongState(object):
                 reward[index] = -10
                 return reward
 
-            if count_down == self.stopping_crit:
+            if count_up == self.stopping_crit:
                 reward[index] = 10
                 return reward
 

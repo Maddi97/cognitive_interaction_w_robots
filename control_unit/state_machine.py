@@ -26,6 +26,8 @@ questioning_state = QuestioningState(handTracker=handTracker, stopping_crit=2)
 select_song_state = SongSelectionState(agent)
 training_state = TrainingState(agent=agent)
 
+
+
 init_state.find_human()
 
 while 1:

@@ -13,11 +13,11 @@ class Network:
         print(state_shape)
         self.model = Sequential()
 
-        self.model.add(Dense(16, input_dim=17, activation='relu'))
+        self.model.add(Dense(8, input_dim=17, activation='relu'))
         self.model.add(Activation('relu'))
-        self.model.add(Dense(32))
-        self.model.add(Dense(action_shape, activation='softmax'))
-        opt = Adam(lr=0.0005)
+        self.model.add(Dense(8))
+        self.model.add(Dense(action_shape, activation='linear'))
+        opt = Adam(lr=0.05)
         self.model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
 
         if load:

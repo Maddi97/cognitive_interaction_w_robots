@@ -12,10 +12,12 @@ class Agent:
 
     # TODO
     def predict_song(self, state):
-        bla = self.dqn.predict(state)
-        song = np.argmax(self.dqn.predict(state))
+        pred = self.dqn.predict(state)
+        print(pred)
+        song = np.argmax(pred)
 
-        return ACTIONS.index(np.random.choice(ACTIONS))
+        # return ACTIONS.index(np.random.choice(ACTIONS))
+        return song
 
     def train(self, state, reward):
         self.dqn.train(np.array([state]), np.array([reward]))

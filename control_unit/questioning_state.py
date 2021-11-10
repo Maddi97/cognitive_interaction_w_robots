@@ -13,6 +13,8 @@ class QuestioningState(object):
         stop = 0
 
         while 1:
+            #TODO
+            return
             gesture = self.__get_gesture__()
             if gesture == 'thumbs down':
                 count_down += 1
