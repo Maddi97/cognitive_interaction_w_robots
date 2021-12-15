@@ -3,12 +3,11 @@ from sys import path
 path.append('rl')
 
 from rl.model.neural_network import Network
-from rl. CONSTANTS import *
-
+from helpers import SONGS
 
 class Agent:
     def __init__(self):
-        self.dqn = Network(len(ACTIONS), (17,))
+        self.dqn = Network(len(SONGS), (17,))
 
     # TODO
     def predict_song(self, state):

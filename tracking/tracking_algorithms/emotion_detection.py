@@ -27,7 +27,10 @@ class EmotionDetection:
             maxindex = int(np.argmax(prediction))
 
         return self.EMOTIONS_LIST[maxindex],  prediction
-        #     cv2.putText(frame, emotion_dict[maxindex], (x + 20, y - 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
-        #                 (255, 255, 255), 2, cv2.LINE_AA)
-        #
-        # cv2.imshow('Video', cv2.resize(frame, (1600, 960), interpolation=cv2.INTER_CUBIC))
+
+    def get_faces(self, img):
+        facecasc = cv2.CascadeClassifier(str(Path(__file__).parent.parent) +
+                                         '/tracking_algorithms/model/haarcascade_frontalface_default.xml')
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        faces = facecasc.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5)
+        return faces

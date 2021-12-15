@@ -1,5 +1,5 @@
 import unittest
-from control_unit import helpers
+import helpers
 
 
 class TestFunction(unittest.TestCase):

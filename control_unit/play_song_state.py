@@ -2,6 +2,10 @@ import cv2
 import numpy as np
 from helpers import SONGS
 
+import pandas as pd
+import random
+from pygame import mixer
+import time
 
 class PlaySongState(object):
     def __init__(self, stopping_crit=5, handTracker=None):
@@ -9,15 +13,28 @@ class PlaySongState(object):
         self.stopping_crit = stopping_crit
         self.handTracker = handTracker
 
+        self.music_df = pd.read_csv('../assets/Musik/csv/music_tags_reduced.csv')
+
+        self.music_path = '../assets/Musik/'
+
     def play_song(self, song):
         # play song
-        print("Playing Song: " + song)
+        mixer.init()
+        mixer.music.load('../assets/audio/play song state A.mp3')
+        mixer.music.play()
+        while mixer.music.get_busy():
+            time.sleep(1)
+
         reward = np.zeros(shape=(len(SONGS)))
         index = SONGS.index(song)
         count_down = 0
         count_up = 0
 
-        while 1:
+        songs = [''.join([self.music_path, 'bensound-', track.replace(' ', ''), '.mp3']) for track in
+                 list(self.music_df.loc[self.music_df[song]]['track_name'])]
+        mixer.music.load(random.sample(songs, 1).pop())
+        mixer.music.play()
+        while mixer.music.get_busy():  # wait for music to finish playing
             gesture = self.__get_gesture()
             if gesture == 'thumbs down':
                 count_down += 1
@@ -39,6 +56,8 @@ class PlaySongState(object):
         img = self.handTracker.track_hand(img)
         gesture, gesture_pred = self.handTracker.predict_gesture(img)
         self.__visualize_prediction__(img, gesture)
+        cap.release()
+        cv2.destroyAllWindows()
         return gesture
 
     def __visualize_prediction__(self, img, gesture=None):

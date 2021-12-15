@@ -1,4 +1,3 @@
-from sys import path
 from helpers import SONGS
 
 

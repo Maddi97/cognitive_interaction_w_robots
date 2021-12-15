@@ -1,8 +1,10 @@
+import time
+
 import numpy as np
 
 import cv2
 
-
+from pygame import mixer
 import helpers
 
 class QueryState(object):
@@ -15,16 +17,26 @@ class QueryState(object):
 
 
     def scan_human(self):
+
+        mixer.init()
+        mixer.music.load('../assets/audio/init state A.mp3')
+        mixer.music.play()
+        while mixer.music.get_busy():
+            time.sleep(1)
+
+        time.sleep(1)
         cam = cv2.VideoCapture(0)
         states = []
+
         for i in range(self.scan_interval):
             success, img = cam.read()
             state, gesture, emotion = self.__get_current_state__(img)
 
             self.__visualize_prediction__(img, gesture, emotion)
             states.append(state)
-
-        return np.reshape(helpers.mean_array(states), (1 ,17))
+        cam.release()
+        cv2.destroyAllWindows()
+        return np.reshape(helpers.mean_array(states), (1 , 17))
 
     def __get_current_state__(self, img):
         emotion, em_pred = self.emDetection.predict_emotion(img)
