@@ -8,8 +8,7 @@ from pygame import mixer
 import time
 
 class PlaySongState(object):
-    def __init__(self, stopping_crit=5, handTracker=None):
-        print("Init music box")
+    def __init__(self, stopping_crit=10, handTracker=None):
         self.stopping_crit = stopping_crit
         self.handTracker = handTracker
 
@@ -20,10 +19,6 @@ class PlaySongState(object):
     def play_song(self, song):
         # play song
         mixer.init()
-        mixer.music.load('../assets/audio/play song state A.mp3')
-        mixer.music.play()
-        while mixer.music.get_busy():
-            time.sleep(1)
 
         reward = np.zeros(shape=(len(SONGS)))
         index = SONGS.index(song)
@@ -34,8 +29,11 @@ class PlaySongState(object):
                  list(self.music_df.loc[self.music_df[song]]['track_name'])]
         mixer.music.load(random.sample(songs, 1).pop())
         mixer.music.play()
+        cam = cv2.VideoCapture(0)
+
         while mixer.music.get_busy():  # wait for music to finish playing
-            gesture = self.__get_gesture()
+            success, img = cam.read()
+            gesture = self.__get_gesture(img)
             if gesture == 'thumbs down':
                 count_down += 1
             elif gesture == 'thumbs up':
@@ -43,21 +41,31 @@ class PlaySongState(object):
 
             if count_down == self.stopping_crit:
                 reward[index] = -10
+                mixer.stop()
+                mixer.quit()
+                cam.release()
+                cv2.destroyAllWindows()
+                for i in range(5):  # maybe 5 or more
+                    cv2.waitKey(1)
                 return reward
 
             if count_up == self.stopping_crit:
                 reward[index] = 10
+                mixer.stop()
+                mixer.quit()
+                cam.release()
+                cv2.destroyAllWindows()
+                for i in range(5):  # maybe 5 or more
+                    cv2.waitKey(1)
                 return reward
 
-    def __get_gesture(self):
-        cap = cv2.VideoCapture(0)
-        success, img = cap.read()
+    def __get_gesture(self, img):
+
         # emotion, em_pred = self.emDetection.predict_emotion(img)
         img = self.handTracker.track_hand(img)
         gesture, gesture_pred = self.handTracker.predict_gesture(img)
         self.__visualize_prediction__(img, gesture)
-        cap.release()
-        cv2.destroyAllWindows()
+
         return gesture
 
     def __visualize_prediction__(self, img, gesture=None):

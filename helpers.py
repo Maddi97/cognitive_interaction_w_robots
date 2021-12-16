@@ -16,9 +16,13 @@ def get_gesture(handTracker, state):
     visualize_prediction(img, state,  gesture)
     cap.release()
     cv2.destroyAllWindows()
+    for i in range(5):  # maybe 5 or more
+        cv2.waitKey(1)
     return gesture
 
 def visualize_prediction(img, state, gesture):
+    cv2.startWindowThread()
+
     cv2.putText(img, state, (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
                 (255, 255, 255), 2, cv2.LINE_AA)
     cv2.putText(img, gesture, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,

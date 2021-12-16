@@ -19,12 +19,14 @@ while True:
     # img = bodyTracker.track_body(img)
     gesture, prediction = handTracker.predict_gesture(img)
     print(prediction)
-    cv2.putText(img, gesture, (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
-                (255, 255, 255), 2, cv2.LINE_AA)
-    cv2.putText(img, emotion, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,
-                (255, 255, 255), 2, cv2.LINE_AA)
-    cv2.imshow("Image", img)
+    # cv2.startWindowThread()
+
+    # cv2.putText(img, gesture, (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
+    #             (255, 255, 255), 2, cv2.LINE_AA)
+    # cv2.putText(img, emotion, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,
+    #             (255, 255, 255), 2, cv2.LINE_AA)
+    # cv2.imshow("Image", img)
 
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+    # if cv2.waitKey(1) & 0xFF == ord('q'):
+    #     break

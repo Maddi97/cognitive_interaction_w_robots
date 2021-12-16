@@ -32,14 +32,15 @@ class Environment:
             gesture, gesture_pred = self.handTracker.predict_gesture(img)
 
             state = np.concatenate((em_pred.squeeze(), gesture_pred.squeeze()))
-
-            cv2.putText(img, gesture, (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
-                        (255, 255, 255), 2, cv2.LINE_AA)
-            cv2.putText(img, emotion, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,
-                        (255, 255, 255), 2, cv2.LINE_AA)
-            cv2.imshow("Image", img)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            # cv2.startWindowThread()
+            #
+            # cv2.putText(img, gesture, (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
+            #             (255, 255, 255), 2, cv2.LINE_AA)
+            # cv2.putText(img, emotion, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,
+            #             (255, 255, 255), 2, cv2.LINE_AA)
+            # cv2.imshow("Image", img)
+            # if cv2.waitKey(1) & 0xFF == ord('q'):
+            #     break
             states.append(state)
 
         return helpers.mean_array(states)

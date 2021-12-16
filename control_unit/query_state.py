@@ -4,7 +4,6 @@ import numpy as np
 
 import cv2
 
-from pygame import mixer
 import helpers
 
 class QueryState(object):
@@ -17,14 +16,6 @@ class QueryState(object):
 
 
     def scan_human(self):
-
-        mixer.init()
-        mixer.music.load('../assets/audio/init state A.mp3')
-        mixer.music.play()
-        while mixer.music.get_busy():
-            time.sleep(1)
-
-        time.sleep(1)
         cam = cv2.VideoCapture(0)
         states = []
 
@@ -36,6 +27,8 @@ class QueryState(object):
             states.append(state)
         cam.release()
         cv2.destroyAllWindows()
+        for i in range(5):  # maybe 5 or more
+            cv2.waitKey(1)
         return np.reshape(helpers.mean_array(states), (1 , 17))
 
     def __get_current_state__(self, img):
@@ -46,6 +39,8 @@ class QueryState(object):
         return state, gesture, emotion
 
     def __visualize_prediction__(self, img, gesture=None, emotion=None):
+        cv2.startWindowThread()
+
         cv2.putText(img, 'Query State', (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
                     (255, 255, 255), 2, cv2.LINE_AA)
         cv2.putText(img, gesture, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,
