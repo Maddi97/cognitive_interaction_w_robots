@@ -1,0 +1,55 @@
+track_name,happy,positive,guitar,piano,commercial,upbeat,fun
+acoustic breeze,True,True,True,False,False,False,False
+actionable,False,False,True,False,False,False,False
+a day to remember wedding music,False,False,True,True,False,False,False
+all that chill hop,False,True,False,True,True,False,False
+a new beginning,False,True,True,True,False,False,False
+badass,False,False,True,False,False,False,False
+beyond the line,False,True,True,False,False,False,False
+brazil samba,True,False,False,False,False,True,False
+buddy,True,True,False,False,True,False,True
+clear day,True,True,True,True,True,True,True
+country boy,True,False,False,False,False,False,True
+creative minds,False,True,True,True,True,False,False
+cute,False,True,False,False,False,False,False
+dance,False,False,True,False,True,True,True
+downtown,False,True,True,False,False,False,False
+dreams chill out,True,False,False,False,False,False,False
+endless motion edm electro,False,True,False,False,False,True,True
+energy,False,False,True,False,True,True,False
+erf,False,True,False,False,True,False,False
+extreme action,False,False,True,False,False,False,False
+fun day,True,True,False,True,False,True,True
+funky element,False,False,False,False,True,True,False
+funky suspense,False,False,True,False,False,False,False
+funny song,True,False,False,False,False,False,True
+going higher,False,False,True,False,False,False,False
+happiness,False,True,True,False,False,True,True
+happy rock,True,True,True,False,True,True,True
+hey happy cheerful,True,True,True,False,False,True,True
+house,False,False,False,False,False,True,False
+jazz comedy,False,False,True,False,False,False,False
+jazzy frenchy,True,False,True,False,False,True,True
+little idea,True,True,False,True,True,True,True
+love,False,False,False,True,False,False,False
+memories,False,True,False,False,False,False,False
+moose,False,False,False,False,True,False,False
+november,False,False,False,True,False,False,False
+once again,False,False,True,True,True,False,False
+perception,False,True,False,True,False,False,False
+photo album,False,False,False,True,False,False,False
+piano moment,False,False,False,True,True,False,False
+pop dance,False,True,False,False,False,True,True
+punky,True,True,True,False,True,True,True
+retro soul,False,False,False,True,True,False,False
+romantic,False,False,False,True,False,False,False
+rumble,False,False,True,False,False,True,False
+sad day,False,False,False,True,False,False,False
+slow motion,False,False,False,True,False,False,False
+small guitar,True,True,True,False,False,True,True
+smile,True,True,False,True,True,False,True
+sunny,True,True,False,False,False,True,False
+sweet,True,False,True,False,False,False,False
+tenderness,False,False,True,True,False,False,False
+the jazz piano,False,False,False,True,False,False,False
+tomorrow,False,False,True,False,False,False,False

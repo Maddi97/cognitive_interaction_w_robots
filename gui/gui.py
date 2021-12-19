@@ -11,9 +11,7 @@ from tracking.tracking_algorithms.bodyTracker import BodyTracker
 from tracking.tracking_algorithms.handTracker import HandTracker
 
 from rl.agent import Agent
-import numpy as np
-import time
-import cv2
+
 import PySimpleGUI as sg
 import sys
 from pygame import mixer
