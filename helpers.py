@@ -6,6 +6,13 @@ SONGS = ['happy', 'positive', 'guitar', 'piano', 'commercial', 'upbeat', 'fun']
 def mean_array(arr):
     return np.array(arr).mean(axis=0)
 
+def max_array(arr):
+    cnt = []
+    for gest in arr:
+        cnt.append(np.argmax(gest))
+    pred = [0 for i in range(len(arr[0]))]
+    pred[max(set(cnt), key=cnt.count)] = 1
+    return np.array(pred)
 
 def get_gesture(handTracker, state):
     cap = cv2.VideoCapture(0)

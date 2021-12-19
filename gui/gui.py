@@ -62,25 +62,25 @@ class gui():
     def execute_state_machine(self):
 
         skip_scan = False
-        self.create_init_window()
+        #self.create_init_window()
         found = init_state.find_human()
-        self.query_state_window()
 
         while 1:
             if not found:
                 print("Abort no human found")
                 break
             if not skip_scan:
+                self.query_state_window()
                 state = query_state.scan_human()
-
             self.create_play_song_window()
             song = select_song_state.select_song(state)
             reward = play_song_state.play_song(song)
-
+            print(state)
+            print(state.shape)
             if not skip_scan:
                 training_state.train(state, reward)
-            self.questioning_window()
-            answer = questioning_state.decideForState()
+            answer = self.questioning_window()
+            # answer = questioning_state.decideForState()
 
             if answer == 'down':
                 print('Okay another round')
@@ -161,7 +161,7 @@ class gui():
 
     def questioning_window(self):
         self.window = sg.Window("Jukebox", layout=[[sg.Text("Queeeestionng")],
-                                                   [sg.Button("Continue"), sg.Button("Exit")],
+                                                   [sg.Button("Complete New Round"), sg.Button("Play new Song"), sg.Button("Exit")],
                                                    [sg.Image('../assets/smileys/smilelaugh.png', size=(500, 500))]])
         mixer.init()
         if self.tutorial:
@@ -176,10 +176,17 @@ class gui():
 
             if event == "Exit" or event == sg.WIN_CLOSED:
                 sys.exit()
-            if event == 'Continue':
-                break
+                return
+            if event == "Complete New Round":
+                mixer.stop()
+                mixer.quit()
+                self.window.close()
+                return 'down'
+            if event == "Play new Song":
+                mixer.stop()
+                mixer.quit()
+                self.window.close()
+                return 'up'
 
-        mixer.stop()
-        mixer.quit()
-        self.window.close()
+
 gui = gui()

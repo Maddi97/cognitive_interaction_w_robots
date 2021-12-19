@@ -17,26 +17,37 @@ class QueryState(object):
 
     def scan_human(self):
         cam = cv2.VideoCapture(0)
-        states = []
-
+        states_em = []
+        states_gest = []
         for i in range(self.scan_interval):
             success, img = cam.read()
-            state, gesture, emotion = self.__get_current_state__(img)
-
+            state_em, state_gest, gesture, emotion = self.__get_current_state__(img)
             self.__visualize_prediction__(img, gesture, emotion)
-            states.append(state)
+
+            states_em.append(state_em)
+            states_gest.append(state_gest)
         cam.release()
         cv2.destroyAllWindows()
         for i in range(5):  # maybe 5 or more
             cv2.waitKey(1)
-        return np.reshape(helpers.mean_array(states), (1 , 17))
+
+        mean_emotion_prediction = helpers.mean_array(states_em)
+        max_gesture_prediction = helpers.max_array(states_gest)
+
+        final_prediction = np.reshape(np.concatenate((mean_emotion_prediction, max_gesture_prediction)), (1,17))
+
+        return final_prediction
 
     def __get_current_state__(self, img):
         emotion, em_pred = self.emDetection.predict_emotion(img)
         img = self.handTracker.track_hand(img)
         gesture, gesture_pred = self.handTracker.predict_gesture(img)
-        state = np.concatenate((em_pred.squeeze(), gesture_pred.squeeze()))
-        return state, gesture, emotion
+        pred = [0 for i in range(len(gesture_pred[0]))]
+
+        pred[np.argmax(gesture_pred)] = 1
+        #print(pred)
+        #state = np.concatenate((em_pred.squeeze(), np.array(pred).squeeze()))
+        return em_pred.squeeze(),np.array(pred).squeeze() , gesture, emotion
 
     def __visualize_prediction__(self, img, gesture=None, emotion=None):
         cv2.startWindowThread()

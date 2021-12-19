@@ -6,8 +6,9 @@ class SongSelectionState(object):
         self.agent = agent
 
     def select_song(self, state):
-        song = SONGS[self.agent.predict_song(state)]
+        song, pred, epsilon, choice = self.agent.predict_song(state)
+        song = SONGS[song]
         # TODO
         # choose a song from selected genre
-        return song
+        return song, pred, epsilon, choice
 
