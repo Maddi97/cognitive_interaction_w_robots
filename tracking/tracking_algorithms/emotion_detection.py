@@ -20,7 +20,7 @@ class EmotionDetection:
         maxindex = 0
         prediction = np.zeros((1,7))
         for (x, y, w, h) in faces:
-            cv2.rectangle(img, (x, y - 50), (x + w, y + h + 10), (255, 0, 0), 2)
+            #cv2.rectangle(img, (x, y - 50), (x + w, y + h + 10), (255, 0, 0), 2)
             roi_gray = gray[y:y + h, x:x + w]
             cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
             prediction = self.model.predict(cropped_img)

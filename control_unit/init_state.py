@@ -12,6 +12,9 @@ class InitState(object):
 
     def find_human(self):
         cam = cv2.VideoCapture(0)
+        cv2.namedWindow("Window", cv2.WINDOW_NORMAL)
+        # set your desired size
+        cv2.resizeWindow('Window', 1400, 900)
         count = 0
         timeout = time.time() + 60 * self.scan_interval
         while 1:
@@ -38,13 +41,15 @@ class InitState(object):
     def __visualize_prediction__(self, img, gesture=None, emotion=None):
         cv2.startWindowThread()
 
-        cv2.putText(img, 'Init State', (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
+        cv2.putText(img, 'Searching for a human ...', (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
                     (255, 255, 255), 2, cv2.LINE_AA)
-        cv2.putText(img, gesture, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,
-                    (255, 255, 255), 2, cv2.LINE_AA)
-        cv2.putText(img, emotion, (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 1,
-                    (255, 255, 255), 2, cv2.LINE_AA)
-
+        # cv2.putText(img, gesture, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,
+        #             (255, 255, 255), 2, cv2.LINE_AA)
+        # cv2.putText(img, emotion, (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 1,
+        #             (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+        # set your desired size
+        cv2.resizeWindow('Image', 1400, 900)
         cv2.imshow("Image", img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('quit')

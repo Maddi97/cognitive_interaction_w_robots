@@ -69,12 +69,14 @@ class PlaySongState(object):
         return gesture
 
     def __visualize_prediction__(self, img, gesture=None):
-        cv2.putText(img, 'Play Song State', (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
+        cv2.putText(img, 'Playing a song and observing reaction (thumbs up or thumbs down) ...', (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
                     (255, 255, 255), 2, cv2.LINE_AA)
-        cv2.putText(img, gesture, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,
-                    (255, 255, 255), 2, cv2.LINE_AA)
+        # cv2.putText(img, gesture, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,
+        #             (255, 255, 255), 2, cv2.LINE_AA)
 
-
+        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+        # set your desired size
+        cv2.resizeWindow('Image', 1400, 900)
         cv2.imshow("Image", img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('quit')

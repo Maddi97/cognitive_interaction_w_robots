@@ -28,8 +28,8 @@ select_song_state = SongSelectionState(agent)
 
 training_state = TrainingState(agent=agent)
 
-actions = ['happy', 'positive', 'guitar', 'piano', 'commercial', 'upbeat', 'fun']
-
+#actions = ['happy', 'positive', 'guitar', 'piano', 'commercial', 'upbeat', 'fun']
+actions = ['happy']
 counter = {'happy': 0, 'positive': 0, 'guitar': 0, 'piano': 0, 'commercial': 0, 'upbeat': 0, 'fun': 0}
 
 df = pd.DataFrame([], columns = ['Iteration', 'Epsilon', 'Choice', 'Song', 'Reward', 'Q-Values', 'MSE'])

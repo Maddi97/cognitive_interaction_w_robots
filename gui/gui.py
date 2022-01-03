@@ -38,10 +38,13 @@ training_state = TrainingState(agent=agent)
 class gui():
     def __init__(self):
         self.round = 0
-        self.window = sg.Window("Jukebox", layout=[[sg.Text("Hello I am your JukeBot. Please Press any Button")], [sg.Button("Start"), sg.Button("Tutorial"), sg.Button("Exit")],
-                                                   [sg.Image('../assets/smileys/smile.png', size=(500, 500))]],
-                                                    size=(800,600))
-
+        self.window = sg.Window("Jukebox", layout=[[sg.Text("Hello I am your JukeBot. Please Press any Button to continue", justification='center',size=(1200,5), font = ("Courier New", 20, "bold"), pad=(0,30))],
+                                                   [sg.Image('../assets/smileys/smile.png', size=(500, 500))],
+                                                   [sg.Button("Start",font = ("Courier New", 30, "bold"), pad=(10,0)), sg.Button("Tutorial",font = ("Courier New", 30, "bold"), pad=(20,0)), sg.Button("Exit", font = ("Courier New", 30, "bold"), pad=(10,0))]],
+                                                    size=(1400, 900),element_justification='c')
+        mixer.init()
+        mixer.music.load('../assets/audio/Start.mp3')
+        mixer.music.play()
 
         self.tutorial = False;
         while True:
@@ -49,11 +52,17 @@ class gui():
             event, values = self.window.read()
 
             if event == "Exit" or event == sg.WIN_CLOSED:
+                mixer.stop()
+                mixer.quit()
                 sys.exit()
             if event == "Tutorial":
                 self.tutorial = True
+                mixer.stop()
+                mixer.quit()
                 break
             if event == 'Start':
+                mixer.stop()
+                mixer.quit()
                 break
 
         self.window.close()
@@ -73,7 +82,7 @@ class gui():
                 self.query_state_window()
                 state = query_state.scan_human()
             self.create_play_song_window()
-            song = select_song_state.select_song(state)
+            song = select_song_state.select_song(state)[0]
             reward = play_song_state.play_song(song)
             print(state)
             print(state.shape)
@@ -94,9 +103,10 @@ class gui():
             self.round += 1
 
     def create_play_song_window(self):
-        self.window = sg.Window("Jukebox", layout=[[sg.Text("Play SOOOOONG")],
-                                                   [sg.Button("Continue"), sg.Button("Exit")],
-                                                   [sg.Image('../assets/smileys/laugh.png', size=(500, 500))]])
+        self.window = sg.Window("Jukebox", layout=[[sg.Text("I think I know which song fits to your mood :)",font = ("Courier New", 30, "bold"), pad=(0,30))],
+                                                   [sg.Image('../assets/smileys/laugh.png', size=(500, 500))],
+                                                   [sg.Button("Continue",font = ("Courier New", 30, "bold"), pad=(20,0)), sg.Button("Exit",font = ("Courier New", 30, "bold"), pad=(20,0))],
+                                                   ],size=(1400, 900),element_justification='c')
 
         mixer.init()
         if self.tutorial:
@@ -121,9 +131,10 @@ class gui():
 
 
     def query_state_window(self):
-        self.window = sg.Window("Jukebox", layout=[[sg.Text("Queriiinnngngggggggg")],
-                                                   [sg.Button("Continue"), sg.Button("Exit")],
-                                                   [sg.Image('../assets/smileys/laugh.png', size=(500, 500))]])
+        self.window = sg.Window("Jukebox", layout=[[sg.Text("I am ready to scan your face and gesture to detect your mood!",font = ("Courier New", 30, "bold"), pad=(0,30))],
+                                                   [sg.Image('../assets/smileys/laugh.png', size=(500, 500))],
+                                                   [sg.Button("Continue",font = ("Courier New", 30, "bold"), pad=(20,0)), sg.Button("Exit",font = ("Courier New", 30, "bold"), pad=(20,0))],
+                                                   ],size=(1400, 900),element_justification='c')
         mixer.init()
         if self.tutorial:
             mixer.music.load('../assets/audio/init state A.mp3')
@@ -144,9 +155,10 @@ class gui():
         self.window.close()
 
     def create_init_window(self):
-        self.window = sg.Window("Jukebox", layout=[[sg.Text("Iniittttt")],
-                                                   [sg.Button("Continue"), sg.Button("Exit")],
-                                                   [sg.Image('../assets/smileys/smilelaugh.png', size=(500, 500))]])
+        self.window = sg.Window("Jukebox", layout=[[sg.Text("Iniittttt",font = ("Courier New", 30, "bold"), pad=(0,30))],
+                                                   [sg.Image('../assets/smileys/smilelaugh.png', size=(500, 500))],
+                                                   [sg.Button("Continue",font = ("Courier New", 30, "bold"), pad=(20,0)), sg.Button("Exit",font = ("Courier New", 30, "bold"), pad=(20,0))],
+                                                   ],size=(1400, 900),element_justification='c')
 
         while True:
             print("hello")
@@ -160,9 +172,10 @@ class gui():
         self.window.close()
 
     def questioning_window(self):
-        self.window = sg.Window("Jukebox", layout=[[sg.Text("Queeeestionng")],
-                                                   [sg.Button("Complete New Round"), sg.Button("Play new Song"), sg.Button("Exit")],
-                                                   [sg.Image('../assets/smileys/smilelaugh.png', size=(500, 500))]])
+        self.window = sg.Window("Jukebox", layout=[[sg.Text("I hope you liked the song I played.",font = ("Courier New", 30, "bold"), pad=(0,30))],
+                                                   [sg.Image('../assets/smileys/smilelaugh.png', size=(500, 500))],
+                                                   [sg.Button("Complete New Round",font = ("Courier New", 30, "bold"), pad=(10,0)), sg.Button("Play new Song",font = ("Courier New", 30, "bold"), pad=(20,0)), sg.Button("Exit",font = ("Courier New", 30, "bold"), pad=(10,0))],
+                                                   ],size=(1400, 900),element_justification='c')
         mixer.init()
         if self.tutorial:
             mixer.music.load('../assets/audio/questioning state A.mp3')

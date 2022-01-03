@@ -10,7 +10,7 @@ class Agent:
         self.dqn = Network(len(SONGS), (17,))
         self.epsilon = 1.0  # exploration probability at start
         self.epsilon_min = 0.15  # minimum exploration probability
-        self.epsilon_decay = 0.001
+        self.epsilon_decay = 0.1
         self.epsilon_greedy = False
         self.decay_step = 0
 

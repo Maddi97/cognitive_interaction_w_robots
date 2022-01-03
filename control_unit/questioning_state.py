@@ -64,8 +64,11 @@ def visualize_prediction(img, state, gesture):
 
     cv2.putText(img, state, (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
                 (255, 255, 255), 2, cv2.LINE_AA)
-    cv2.putText(img, gesture, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,
-                (255, 255, 255), 2, cv2.LINE_AA)
+    # cv2.putText(img, gesture, (20, 120), cv2.FONT_HERSHEY_SIMPLEX, 1,
+    #             (255, 255, 255), 2, cv2.LINE_AA)
+    cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+    # set your desired size
+    cv2.resizeWindow('Image', 1400, 900)
     cv2.imshow("Image", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         print('quit')
