@@ -17,11 +17,16 @@ import sys
 from pygame import mixer
 
 
+NAME = "max_test"
+LOAD = False
+
+
 handTracker = HandTracker(mode=True)
 bodyTracker = BodyTracker()
 emDetection = emotion_detection.EmotionDetection()
 
-agent = Agent()
+# define if simulation or field experiment and control group or not
+agent = Agent(field_experiment=True, random=False, load=LOAD, name=NAME)
 
 init_state = InitState(stopping_crit=10, scan_interval=1, handTracker=handTracker, emDetection=emDetection)
 
@@ -45,10 +50,10 @@ class gui():
         mixer.init()
         mixer.music.load('../assets/audio/Start.mp3')
         mixer.music.play()
+        self.model = None
 
         self.tutorial = False;
         while True:
-            print("hello")
             event, values = self.window.read()
 
             if event == "Exit" or event == sg.WIN_CLOSED:
@@ -73,34 +78,45 @@ class gui():
         skip_scan = False
         #self.create_init_window()
         found = init_state.find_human()
+        try:
+            while 1:
+                if not found:
+                    raise Exception("human not found")
+                if not skip_scan:
+                    self.query_state_window()
+                    state = query_state.scan_human()
+                self.create_play_song_window()
+                song = select_song_state.select_song(state)[0]
+                reward = play_song_state.play_song(song)
+                print(state)
+                if not skip_scan:
+                    history, dqn = training_state.train(state, reward)
+                    self.model = dqn
+                answer = self.questioning_window()
+                # answer = questioning_state.decideForState()
 
-        while 1:
-            if not found:
-                print("Abort no human found")
-                break
-            if not skip_scan:
-                self.query_state_window()
-                state = query_state.scan_human()
-            self.create_play_song_window()
-            song = select_song_state.select_song(state)[0]
-            reward = play_song_state.play_song(song)
-            print(state)
-            print(state.shape)
-            if not skip_scan:
-                training_state.train(state, reward)
-            answer = self.questioning_window()
-            # answer = questioning_state.decideForState()
-
-            if answer == 'down':
-                print('Okay another round')
-                skip_scan = False
-            elif answer == 'up':
-                print('Okay here comes another song to your mood')
-                skip_scan = True
-            elif answer == 'stop':
-                print('Okay Goodbye! I am happy to see u again!')
-                break
-            self.round += 1
+                if answer == 'down':
+                    print('Okay another round')
+                    skip_scan = False
+                elif answer == 'up':
+                    print('Okay here comes another song to your mood')
+                    skip_scan = True
+                elif answer == 'stop':
+                    print('Okay Goodbye! I am happy to see u again!')
+                    if self.model is not None:
+                        print('saving model ...')
+                        self.model.save('../results/model/model_{}'.format(NAME))
+                        print('model saved')
+                        self.window.close()
+                        sys.exit()
+                self.round += 1
+        except SystemExit:
+            self.window.close()
+            sys.exit()
+        except:
+            print("Oops!", sys.exc_info()[0], "occurred.")
+            self.window.close()
+            self.__init__()
 
     def create_play_song_window(self):
         self.window = sg.Window("Jukebox", layout=[[sg.Text("I think I know which song fits to your mood :)",font = ("Courier New", 30, "bold"), pad=(0,30))],
@@ -118,10 +134,13 @@ class gui():
             mixer.music.play()
 
         while True:
-            print("hello")
             event, values = self.window.read()
 
             if event == "Exit" or event == sg.WIN_CLOSED:
+                if self.model is not None:
+                    print("model saved")
+                    self.model.save('../results/model/model_{}'.format(NAME))
+                self.window.close()
                 sys.exit()
             if event == 'Continue':
                 break
@@ -147,6 +166,8 @@ class gui():
             event, values = self.window.read()
 
             if event == "Exit" or event == sg.WIN_CLOSED:
+                if self.model is not None:
+                    self.model.save('../results/model/model_{}'.format(NAME))
                 sys.exit()
             if event == 'Continue':
                 break
@@ -161,10 +182,11 @@ class gui():
                                                    ],size=(1400, 900),element_justification='c')
 
         while True:
-            print("hello")
             event, values = self.window.read()
 
             if event == "Exit" or event == sg.WIN_CLOSED:
+                if self.model is not None:
+                    self.model.save('../results/model/model_{}'.format(NAME))
                 sys.exit()
             if event == 'Continue':
                 break
@@ -188,16 +210,18 @@ class gui():
             event, values = self.window.read()
 
             if event == "Exit" or event == sg.WIN_CLOSED:
-                sys.exit()
-                return
+                self.window.close()
+                return 'stop'
             if event == "Complete New Round":
                 mixer.stop()
                 mixer.quit()
                 self.window.close()
+                self.tutorial = False
                 return 'down'
             if event == "Play new Song":
                 mixer.stop()
                 mixer.quit()
+                self.tutorial = False
                 self.window.close()
                 return 'up'
 
