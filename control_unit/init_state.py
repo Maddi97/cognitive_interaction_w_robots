@@ -27,7 +27,7 @@ class InitState(object):
                 count += 1
 
             if count >= self.stopping_crit:
-                print("Human found")
+                #print("Human found")
                 cam.release()
                 cv2.destroyAllWindows()
                 for i in range(5):  # maybe 5 or more

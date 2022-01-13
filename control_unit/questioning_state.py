@@ -26,7 +26,7 @@ class QuestioningState(object):
                 count_stop += 1
 
             if count_down == self.stopping_crit:
-                print('abbruch')
+                #print('abbruch')
                 cam.release()
                 cv2.destroyAllWindows()
                 for i in range(5):  # maybe 5 or more
@@ -34,7 +34,7 @@ class QuestioningState(object):
                 return 'down'
 
             if count_up == self.stopping_crit:
-                print('human found and willing to play')
+                #print('human found and willing to play')
                 cam.release()
                 cv2.destroyAllWindows()
                 for i in range(5):  # maybe 5 or more

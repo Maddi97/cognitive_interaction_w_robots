@@ -38,20 +38,15 @@ class Agent:
 
         if (( explore_probability > np.random.rand() and self.epsilon>self.epsilon_min) or self.ran ):
             # Make a random action (exploration)
-            print(self.ran)
-            print(np.random.rand())
-            print(self.epsilon)
-            print(self.epsilon_min)
-            print(((explore_probability > np.random.rand() and self.epsilon>self.epsilon_min) or random))
-            print("Random choice : " + str(explore_probability))
+            #print("Random choice : " + str(explore_probability))
             return SONGS.index(np.random.choice(SONGS)), [], explore_probability, 'random'
         else:
-            print("Network choice : " + str(explore_probability))
+            #print("Network choice : " + str(explore_probability))
             pred = self.dqn.predict(state)
             song = np.argmax(pred)
             return song, pred, explore_probability, 'network'
 
     def train(self, state, reward):
         history = self.dqn.train(np.array([state]), np.array([reward]))
-        print('training worked')
+        #print('training worked')
         return history, self.dqn.get_model()

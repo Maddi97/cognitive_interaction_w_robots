@@ -40,7 +40,7 @@ model = None
 
 
 for iteration in range(3000):
-    print('Iteration: {}'.format(iteration))
+    #print('Iteration: {}'.format(iteration))
     state_em = np.random.rand(7)
     state_gest = [0 for i in range(10)]
     i = random.randint(0, 9)
@@ -65,9 +65,9 @@ for iteration in range(3000):
     history, dqn = training_state.train(state, reward)
 
     model = dqn
-    print("#####" + song + "######\n", reward)
-    print(counter)
-    print(history['mse'])
+    #print("#####" + song + "######\n", reward)
+    #print(counter)
+    #print(history['mse'])
     df_row = pd.Series({'Iteration': iteration,'Epsilon':epsilon, 'Choice':choice, 'Song': song, 'Reward': r, 'Q-Values':pred, 'MSE':history['mse'][0]})
     df = df.append(df_row, ignore_index=True)
 

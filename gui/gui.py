@@ -49,9 +49,9 @@ training_state = TrainingState(agent=agent)
 class gui():
     def __init__(self):
         self.round = 0
-        self.window = sg.Window("Jukebox", layout=[[sg.Text("Hello I am your JukeBot. Please Press any Button to continue", justification='center',size=(1200,5), font = ("Courier New", 20, "bold"), pad=(0,30))],
+        self.window = sg.Window("Jukebox", layout=[[sg.Text("Hello I am your JukeBot. Please Press any Button to continue", justification='center',size=(1200,5), font = ("Courier New", 30, "bold"), pad=(0,20))],
                                                    [sg.Image('../assets/smileys/smile.png', size=(500, 500))],
-                                                   [sg.Button("Start",font = ("Courier New", 30, "bold"), pad=(10,0)), sg.Button("Tutorial",font = ("Courier New", 30, "bold"), pad=(20,0)), sg.Button("Exit", font = ("Courier New", 30, "bold"), pad=(10,0))]],
+                                                   [sg.Button("Further Rounds",font = ("Courier New", 30, "bold"), pad=(10,0)), sg.Button("First Round",font = ("Courier New", 30, "bold"), pad=(20,0)), sg.Button("Exit", font = ("Courier New", 30, "bold"), pad=(10,0))]],
                                                     size=(1400, 900),element_justification='c')
         mixer.init()
         mixer.music.load('../assets/audio/Start.mp3')
@@ -66,12 +66,12 @@ class gui():
                 mixer.stop()
                 mixer.quit()
                 sys.exit()
-            if event == "Tutorial":
+            if event == "First Round":
                 self.tutorial = True
                 mixer.stop()
                 mixer.quit()
                 break
-            if event == 'Start':
+            if event == 'Further Rounds':
                 mixer.stop()
                 mixer.quit()
                 break
@@ -102,10 +102,10 @@ class gui():
                 # answer = questioning_state.decideForState()
 
                 if answer == 'down':
-                    print('Okay another round')
+                    #print('Okay another round')
                     skip_scan = False
                 elif answer == 'up':
-                    print('Okay here comes another song to your mood')
+                    #print('Okay here comes another song to your mood')
                     skip_scan = True
                 elif answer == 'stop':
                     print('Okay Goodbye! I am happy to see u again!')

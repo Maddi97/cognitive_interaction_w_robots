@@ -21,3 +21,12 @@ parameter:
 2. LOAD: set True if there is already a pre-trained model corresponding to the NAME parameter and you want to continue with this model. To train a completely new model set it to False
 3. FIELD_EXPERIMENT: set True if the run is a field experiment or you want to really use the juke bot: False is only for the simulation run
 4. RANDOM: if it is the control group set it to True, then only random songs are selected. False uses the predictions of the neural network
+
+
+###Results und Models
+
+In the directory 'results' all results can be found:
+1. /models_participants' contains all trained model of the participants in the field experiment and can be loaded and retrained
+2. /simulation contains the model of the simulation run
+3. plots.py is the script used for visualize the simulation results
+4. the *.csv files contains the collected data of the simulation runs

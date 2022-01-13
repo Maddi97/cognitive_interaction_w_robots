@@ -18,7 +18,7 @@ while True:
     img = handTracker.track_hand(img)
     # img = bodyTracker.track_body(img)
     gesture, prediction = handTracker.predict_gesture(img)
-    print(prediction)
+    #print(prediction)
     # cv2.startWindowThread()
 
     # cv2.putText(img, gesture, (20, 60), cv2.FONT_HERSHEY_SIMPLEX, 1,
