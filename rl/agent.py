@@ -8,7 +8,7 @@ import random
 import tensorflow as tf
 
 class Agent:
-    def __init__(self, name, field_experiment=False, random=False, load=False):
+    def __init__(self, name, field_experiment=False, random = False, load=False):
 
         if not load:
             self.dqn = Network(len(SONGS), (17,), load=load, name = name)
@@ -19,7 +19,7 @@ class Agent:
         self.epsilon_min = 0.15  # minimum exploration probability
         self.epsilon_decay = 0.25
         self.field_experiment = field_experiment
-        self.random = random
+        self.ran = random
         self.decay_step = 0
 
     def predict_song(self, state):
@@ -36,8 +36,13 @@ class Agent:
                 self.epsilon *= (1 - self.epsilon_decay)
             explore_probability = self.epsilon
 
-        if (explore_probability > np.random.rand() and self.epsilon>self.epsilon_min) or random:
+        if (( explore_probability > np.random.rand() and self.epsilon>self.epsilon_min) or self.ran ):
             # Make a random action (exploration)
+            print(self.ran)
+            print(np.random.rand())
+            print(self.epsilon)
+            print(self.epsilon_min)
+            print(((explore_probability > np.random.rand() and self.epsilon>self.epsilon_min) or random))
             print("Random choice : " + str(explore_probability))
             return SONGS.index(np.random.choice(SONGS)), [], explore_probability, 'random'
         else:

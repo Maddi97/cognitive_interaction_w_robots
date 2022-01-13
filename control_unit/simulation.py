@@ -18,12 +18,14 @@ import random
 import numpy as np
 import pandas as pd
 
+simulation_song = 'happy'
 
 handTracker = HandTracker(mode=True)
 bodyTracker = BodyTracker()
 emDetection = emotion_detection.EmotionDetection()
 
-agent = Agent()
+agent = Agent(field_experiment=False, random=False, load=False, name=simulation_song)
+
 select_song_state = SongSelectionState(agent)
 
 training_state = TrainingState(agent=agent)
@@ -34,35 +36,40 @@ counter = {'happy': 0, 'positive': 0, 'guitar': 0, 'piano': 0, 'commercial': 0, 
 
 df = pd.DataFrame([], columns = ['Iteration', 'Epsilon', 'Choice', 'Song', 'Reward', 'Q-Values', 'MSE'])
 
-for simulation_song in actions:
-    for iteration in range(3000):
-        print('Iteration: {}'.format(iteration))
-        state_em = np.random.rand(7)
-        state_gest = [0 for i in range(10)]
-        i = random.randint(0, 9)
-
-        state_gest[i] = 1
-
-        state = np.reshape(np.concatenate((state_em, state_gest)), (1,17))
-        song, pred, epsilon, choice = select_song_state.select_song(state)
-        counter[song] += 1
-        reward = np.zeros(shape=(len(SONGS)))
-        index = SONGS.index(song)
-        r = 0
-
-        if song == simulation_song:
-            r = 10
-            reward[index] = 10
-        else:
-            r = -10
-            reward[index] = -10
+model = None
 
 
-        history = training_state.train(state, reward)
-        print("#####" + song + "######\n", reward)
-        print(counter)
-        print(history['mse'])
-        df_row = pd.Series({'Iteration': iteration,'Epsilon':epsilon, 'Choice':choice, 'Song': song, 'Reward': r, 'Q-Values':pred, 'MSE':history['mse'][0]})
-        df = df.append(df_row, ignore_index=True)
+for iteration in range(3000):
+    print('Iteration: {}'.format(iteration))
+    state_em = np.random.rand(7)
+    state_gest = [0 for i in range(10)]
+    i = random.randint(0, 9)
 
-    df.to_csv("../results/{}_results.csv".format(simulation_song))
+    state_gest[i] = 1
+
+    state = np.reshape(np.concatenate((state_em, state_gest)), (1,17))
+    song, pred, epsilon, choice = select_song_state.select_song(state)
+    counter[song] += 1
+    reward = np.zeros(shape=(len(SONGS)))
+    index = SONGS.index(song)
+    r = 0
+
+    if song in actions:
+        r = 10
+        reward[index] = 10
+    else:
+        r = -10
+        reward[index] = -10
+
+
+    history, dqn = training_state.train(state, reward)
+
+    model = dqn
+    print("#####" + song + "######\n", reward)
+    print(counter)
+    print(history['mse'])
+    df_row = pd.Series({'Iteration': iteration,'Epsilon':epsilon, 'Choice':choice, 'Song': song, 'Reward': r, 'Q-Values':pred, 'MSE':history['mse'][0]})
+    df = df.append(df_row, ignore_index=True)
+
+model.save("../results/simulation/{}_sim_model".format(simulation_song))
+#df.to_csv("../results/{}_results.csv".format(simulation_song))

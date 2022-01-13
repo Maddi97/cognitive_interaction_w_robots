@@ -1,21 +1,23 @@
 # Project Cognitive Interaction with Robots
 
-### First always do a git pull to get all new updates
 
-### Then always install new packages from requirements.txt
+### Install required packages
 
 ```
 pip install -r requirements.txt
 ```
 
-### How to update requirements.txt when u install new python packages
+### Run JukeBot with graphical user interface
 
-```  
-pip freeze > requirements.txt
 ```
-### Um in die virtuelle Maschine zu wechseln 
-````
-./venv/Scripts/activate
-````
+python gui.py
+```
 
+### Set parameters for the run
 
+In gui/gui.py in lines 21-24 you can set the parameters for the run
+parameter:
+1. NAME: choose a name of a user -> model for this user is saved and can later be loaded
+2. LOAD: set True if there is already a pre-trained model corresponding to the NAME parameter and you want to continue with this model. To train a completely new model set it to False
+3. FIELD_EXPERIMENT: set True if the run is a field experiment or you want to really use the juke bot: False is only for the simulation run
+4. RANDOM: if it is the control group set it to True, then only random songs are selected. False uses the predictions of the neural network

@@ -16,9 +16,15 @@ import PySimpleGUI as sg
 import sys
 from pygame import mixer
 
+##################################################
 
-NAME = "max_test"
-LOAD = False
+###### CHOOSE PARAMETERS ########
+NAME = "participant_10"   # id participant
+LOAD = True   # participant has an pre trained model to load?
+FIELD_EXPERIMENT = True  # Field experimentation or simulation run
+RANDOM = False  # Control group
+
+##################################################
 
 
 handTracker = HandTracker(mode=True)
@@ -26,7 +32,7 @@ bodyTracker = BodyTracker()
 emDetection = emotion_detection.EmotionDetection()
 
 # define if simulation or field experiment and control group or not
-agent = Agent(field_experiment=True, random=False, load=LOAD, name=NAME)
+agent = Agent(field_experiment=FIELD_EXPERIMENT, random=RANDOM, load=LOAD, name=NAME)
 
 init_state = InitState(stopping_crit=10, scan_interval=1, handTracker=handTracker, emDetection=emDetection)
 
@@ -104,9 +110,9 @@ class gui():
                 elif answer == 'stop':
                     print('Okay Goodbye! I am happy to see u again!')
                     if self.model is not None:
-                        print('saving model ...')
-                        self.model.save('../results/model/model_{}'.format(NAME))
-                        print('model saved')
+                        print('saving models_participants ...')
+                        self.model.save('../results/models_participants/model_{}'.format(NAME))
+                        print('models_participants saved')
                         self.window.close()
                         sys.exit()
                 self.round += 1
@@ -138,8 +144,8 @@ class gui():
 
             if event == "Exit" or event == sg.WIN_CLOSED:
                 if self.model is not None:
-                    print("model saved")
-                    self.model.save('../results/model/model_{}'.format(NAME))
+                    print("models_participants saved")
+                    self.model.save('../results/models_participants/model_{}'.format(NAME))
                 self.window.close()
                 sys.exit()
             if event == 'Continue':
@@ -167,7 +173,7 @@ class gui():
 
             if event == "Exit" or event == sg.WIN_CLOSED:
                 if self.model is not None:
-                    self.model.save('../results/model/model_{}'.format(NAME))
+                    self.model.save('../results/models_participants/model_{}'.format(NAME))
                 sys.exit()
             if event == 'Continue':
                 break
@@ -186,7 +192,7 @@ class gui():
 
             if event == "Exit" or event == sg.WIN_CLOSED:
                 if self.model is not None:
-                    self.model.save('../results/model/model_{}'.format(NAME))
+                    self.model.save('../results/models_participants/model_{}'.format(NAME))
                 sys.exit()
             if event == 'Continue':
                 break

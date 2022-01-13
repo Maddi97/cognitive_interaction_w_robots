@@ -16,7 +16,7 @@ class HandTracker():
         self.hands = self.mpHands.Hands(self.mode, self.max_hands, self.detection_conf, self.track_conf)
         self.mpDraw = mp.solutions.drawing_utils
 
-        # Load the gesture recognizer model
+        # Load the gesture recognizer models_participants
         self.model = load_model(str(Path(__file__).parent.parent) + '/tracking_algorithms/model/mp_hand_gesture')
 
         # Load class names

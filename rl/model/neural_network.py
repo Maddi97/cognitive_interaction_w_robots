@@ -21,9 +21,9 @@ class Network:
             self.model.compile(optimizer=opt, loss='mse', metrics=['mse'])
 
         if load:
-            self.model = tensorflow.keras.models.load_model('../results/model/model_{}'.format(name))
+            self.model = tensorflow.keras.models.load_model('../results/models_participants/model_{}'.format(name))
 
-        # print(self.model.summary())
+        # print(self.models_participants.summary())
 
     def train(self, state, reward):
         history = self.model.fit(x=state, y=reward, verbose=1)
