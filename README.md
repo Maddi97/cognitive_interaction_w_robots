@@ -36,3 +36,4 @@ In the directory 'results' all results can be found:
 1. In the folder 'control_unit' are the implementation of the state maschine and all according states
 2. folder 'rl' contains all files of the implementation of the reinforcement learning algorithm
 3. in folder 'tracking' are all files related to the detection of the facial expressin and the gesture
+4. in assets/Musik is the python notebook Song_Tags.ipynb which contains the code for scraping the songs
